@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.9.2_snapshot20190921" last-position="0,163" last-zoom="1" max-obj-count="7"
+	 default-owner="postgres">
+<role name="poker_db_owner"
+      superuser="true"
+      createdb="true">
+</role>
+
+<database name="new_database" is-template="false" allow-conns="true">
+</database>
+
+<schema name="public" layer="0" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<schema name="mlpool" layer="0" rect-visible="true" fill-color="#e1e1e1">
+	<role name="poker_db_owner"/>
+</schema>
+
+<table name="preflop_chart_body" layer="0" collapse-mode="2" max-obj-count="9">
+	<schema name="mlpool"/>
+	<role name="poker_db_owner"/>
+	<position x="0" y="260"/>
+	<column name="id" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="description" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="creation_timestamp" not-null="true">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="update_timestamp" not-null="true">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="spot" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="chart_type" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="body">
+		<type name="bytea" length="0"/>
+	</column>
+	<constraint name="preflop_chart_body_pk" type="pk-constr" table="mlpool.preflop_chart_body">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="preflop_chart_body_tbl_name_uq" type="uq-constr" table="mlpool.preflop_chart_body">
+		<columns names="name" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="postflop_chart_body" layer="0" collapse-mode="2" max-obj-count="9">
+	<schema name="mlpool"/>
+	<role name="poker_db_owner"/>
+	<position x="460" y="240"/>
+	<column name="id" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="description" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="creation_timestamp" not-null="true">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="update_timestamp" not-null="true">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="spot" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="chart_type" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="body">
+		<type name="bytea" length="0"/>
+	</column>
+	<constraint name="postflop_chart_body_pk" type="pk-constr" table="mlpool.postflop_chart_body">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="postflop_chart_body_tbl_name_uq" type="uq-constr" table="mlpool.postflop_chart_body">
+		<columns names="name" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="solution" layer="0" collapse-mode="2" max-obj-count="7">
+	<schema name="mlpool"/>
+	<role name="poker_db_owner"/>
+	<position x="0" y="520"/>
+	<column name="id" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="description" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="creation_timestamp" not-null="true">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="update_timestamp" not-null="true">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="body">
+		<type name="bytea" length="0"/>
+	</column>
+	<constraint name="solution_pk" type="pk-constr" table="mlpool.solution">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="solution_tbl_name_uq" type="uq-constr" table="mlpool.solution">
+		<columns names="name" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="model" layer="0" collapse-mode="2" max-obj-count="30">
+	<schema name="mlpool"/>
+	<role name="poker_db_owner"/>
+	<position x="440" y="560"/>
+	<column name="id" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="dataset_query" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="fallback_query" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="model_type" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="description" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="model_status" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="max_depth" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="dataset_row_count" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="min_instances_per_node" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="min_info_gain" not-null="true">
+		<type name="float" length="0"/>
+	</column>
+	<column name="min_weight_fraction_per_node" not-null="true">
+		<type name="float" length="0"/>
+	</column>
+	<column name="num_nodes" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="model_size" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="depth" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="body">
+		<type name="bytea" length="0"/>
+	</column>
+	<column name="status_info" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="feature_info" not-null="true">
+		<type name="jsonb" length="0"/>
+	</column>
+	<column name="eval_value_seen_data" not-null="true">
+		<type name="double precision" length="0"/>
+	</column>
+	<column name="eval_value_unknown_data" not-null="true">
+		<type name="double precision" length="0"/>
+	</column>
+	<column name="feature_schema" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="creation_timestamp" not-null="true">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="update_timestamp" not-null="true">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="spot" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="poker_situation" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="model_pkl" type="pk-constr" table="mlpool.model">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="model_tbl_name_uq" type="uq-constr" table="mlpool.model">
+		<columns names="name" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<index name="preflop_chart_body_tbl_spot_idx" table="mlpool.preflop_chart_body"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="false">
+			<column name="spot"/>
+		</idxelement>
+</index>
+
+<index name="postflop_chart_body_tbl_spot_idx" table="mlpool.postflop_chart_body"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="false">
+			<column name="spot"/>
+		</idxelement>
+</index>
+
+<index name="idx_model_tbl_spot" table="mlpool.model"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="false">
+			<column name="spot"/>
+		</idxelement>
+</index>
+
+<index name="idx_model_tbl_poker_situation" table="mlpool.model"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="false">
+			<column name="poker_situation"/>
+		</idxelement>
+</index>
+
+<index name="idx_model_tbl_feature_schema" table="mlpool.model"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="false">
+			<column name="feature_schema"/>
+		</idxelement>
+</index>
+
+<table name="special_spot_tweak" layer="0" collapse-mode="2" max-obj-count="7">
+	<schema name="mlpool"/>
+	<role name="poker_db_owner"/>
+	<position x="0" y="760"/>
+	<column name="id" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="description" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="creation_timestamp" not-null="true">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="update_timestamp" not-null="true">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="body">
+		<type name="bytea" length="0"/>
+	</column>
+	<constraint name="pk_special_spot_tweak_tbl" type="pk-constr" table="mlpool.special_spot_tweak">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="uq_special_spot_tweak_tbl_name" type="uq-constr" table="mlpool.special_spot_tweak">
+		<columns names="name" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="statistics_body" layer="0" collapse-mode="2" max-obj-count="7">
+	<schema name="mlpool"/>
+	<role name="poker_db_owner"/>
+	<position x="0" y="1000"/>
+	<column name="id" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="description" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="creation_timestamp" not-null="true">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="update_timestamp" not-null="true">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="body">
+		<type name="bytea" length="0"/>
+	</column>
+	<constraint name="pk_statistics_body_tbl" type="pk-constr" table="mlpool.statistics_body">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="uq_statistics_body_tbl_name" type="uq-constr" table="mlpool.statistics_body">
+		<columns names="name" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+</dbmodel>

@@ -1,0 +1,82 @@
+server:
+  port: 8000
+
+spark:
+  log-level: ERROR
+  spark-driver-memory: 36g
+  spark-executor-memory: 36g
+  spark-driver-cores: 16
+  spark-executor-instances: 16
+  spark-executor-cores: 16
+  app-name: mlpool
+  spark-master: local[*]
+  spark-driver-host: 0.0.0.0
+  spark-ui-enabled: "false"
+  spark-kryo-registration-required: "false"
+  spark-broadcast-compress: "false"
+  spark-checkpoint-compress: "false"
+  spark-event-log-enabled: "false"
+  spark-event-log-dir: "spark-events"
+
+security:
+  encryption-key: abcABC123
+
+data-storage:
+  players-schema-name: holdem
+  players-table-name: players
+  dataset-schema-name: ml_datasets
+  holdem-stat-schema-name: ml_holdem_stats_datasets
+
+clickhouse:
+  jdbcUrl: jdbc:clickhouse://localhost:8123
+  user: user
+  password: password
+  socket_timeout: 900000000
+  query_timeout: 900000000
+  driver_class: com.clickhouse.jdbc.ClickHouseDriver
+
+spring:
+  liquibase:
+    contexts: ${spring.profiles.active}
+    liquibase-schema: liquibase
+    change-log: classpath:/changelog/db.changelog-master.yaml
+    enabled: true
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: false
+  banner:
+    location:
+      banner/logo.txt
+  profiles:
+    active: docker
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      jdbcUrl: ""
+      username: user
+      password: password
+      maximum-pool-size: 10
+      minimum-idle: 5
+  graphql:
+    cors:
+      max-age: 1800s
+      allowed-methods:
+        - POST
+        - PUT
+        - GET
+    #      allowed-origins: https://localhost:3000
+    graphiql:
+      enabled: true
+    schema:
+      introspection:
+        enabled: true
+      locations: classpath*:graphql/**/
+      printer:
+        enabled: true
+
+advice-service:
+  solution-names:
+

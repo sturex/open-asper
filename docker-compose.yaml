@@ -1,0 +1,87 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "8013:8013"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      clickhouse:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_HIKARI_JDBC_URL=jdbc:postgresql://postgres:5432/holdem
+      - SPRING_DATASOURCE_HIKARI_USERNAME=${DB_USER:-sgdgs237cb}
+      - SPRING_DATASOURCE_HIKARI_PASSWORD=${DB_PASSWORD:-spdimncwn2348fcbcFFAtf4}
+      - CLICKHOUSE_JDBC_URL=jdbc:clickhouse://clickhouse:8123
+      - CLICKHOUSE_USER=${CLICKHOUSE_USER:-sdh7sfdtwfd}
+      - CLICKHOUSE_PASSWORD=${CLICKHOUSE_PASSWORD:-fdlksDGsadf87243rgfjhsdb}
+      - ADVICE_SERVICE_SOLUTION_NAMES=CHART_SOLUTION_CASH_REG_BS_6_VPIP_0_20
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8013/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  postgres:
+    container_name: pg_holdem
+    image: postgres:15
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    environment:
+      POSTGRES_DB: holdem
+      POSTGRES_USER: sgdgs237cb
+      POSTGRES_PASSWORD: spdimncwn2348fcbcFFAtf4
+    volumes:
+      - ./holdem_postgres_data:/var/lib/postgresql/data
+      - ./postgres-init-scripts:/docker-entrypoint-initdb.d/
+    ports:
+      - "5431:5432"
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  clickhouse:
+    container_name: clickhouse-holdem
+    image: clickhouse/clickhouse-server:latest
+    user: "101:101"
+    healthcheck:
+      test: ["CMD-SHELL", "clickhouse-client --query 'SELECT 1'"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    environment:
+      CLICKHOUSE_USER: sdh7sfdtwfd
+      CLICKHOUSE_PASSWORD: fdlksDGsadf87243rgfjhsdb
+      CLICKHOUSE_DB: holdem
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+    ports:
+      - "8127:8123"
+    restart: unless-stopped
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+    driver: local
+  clickhouse_data:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge

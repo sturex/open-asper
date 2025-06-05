@@ -1,0 +1,1073 @@
+scalar Timestamp
+
+type Query {
+
+    bootstrap: Int!
+    initStatisticsMap: Int!
+
+    fixSolutions(
+        solutionNames: [String!]!
+        donorSolutionName: String!
+    ): [String!]!
+
+    pfDonorSolution(
+        solutionName: String!
+        donorSolutionName: String!
+    ): String!
+
+    deleteSolution(name: String!): Int!
+
+    model(modelName: String!): Model!
+
+    createSolutionPool (
+        solutionNames: [String!]!
+    ): [String!]!
+
+    trainAll: [String!]!
+
+    csAdvice (
+        pokerHandInput: PokerHandInput!
+    ): Advice!
+
+    realDatasetPreflopActionPredictions(
+        schemaName: String!
+        actionAdvisorType: ActionAdvisorType!
+        actionAdvisorName: String!
+        actionTweakInput: ActionTweakInput!
+        spot: String!
+        limit: Int
+    ): [CardCellActionVector!]!
+
+    realDatasetPreflopAmountPredictions(
+        schemaName: String!
+        amountAdvisorName: String!
+        spot: String!
+        minWeightThreshold: Float
+        limit: Int
+    ): [CardCellWeightedAmount!]!
+
+    realDatasetPostflopActionPredictions(
+        schemaName: String!
+        actionAdvisorType: ActionAdvisorType!
+        actionAdvisorName: String!
+        actionTweakInput: ActionTweakInput!
+        spot: String!
+        limit: Int
+    ): ActionVector!
+
+    realDatasetPostflopAmountPredictions(
+        schemaName: String!
+        amountAdvisorName: String!
+        spot: String!
+        minWeightThreshold: Float
+        limit: Int
+    ): [WeightedAmount!]!
+
+    createSpecialSpotTweak(
+        name: String!
+        specialSpotTweakInputs: [SpecialSpotTweakInput!]!
+    ): SpecialSpotTweak!
+
+    specialSpotTweak(
+        name: String!
+    ): SpecialSpotTweak!
+
+    createDatasets (
+        pokerGamesSchemaName: String!
+        pokerGamesTableName: String!
+        datasetsSchemaName: String!
+    ): Int!
+
+    createHoldemStatDatasets (
+        pokerGamesSchemaName: String!
+        pokerGamesTableName: String!
+        datasetsSchemaName: String!
+    ): Int!
+
+    createMlSolution(
+        datasetsSchemaName: String!
+        playersSchemaName: String!
+        opponentType: OpponentType!
+        decisionTreeParamsInput: DecisionTreeParamsInput!
+        playerNames: [String!]!
+        profitableHandsOnly: Boolean!
+        identity: String!
+    ): SolutionInfoOutput!
+
+    createPreflopActionChart(
+        name: String!
+        spot: String!
+        cardCellActionVectorInputs: [CardCellActionVectorInput!]!
+    ): [CardCellActionVector!]!
+
+    createPreflopAmountChart(
+        name: String!
+        spot: String!
+        cardCellWeightedAmountInputs: [CardCellWeightedAmountInput!]!
+    ): [CardCellWeightedRandomAmountOutput!]!
+
+    createPostflopActionChart(
+        name: String!
+        spot: String!
+        actionVectorInput: ActionVectorInput
+    ): ActionVector!
+
+    createPostflopAmountChart(
+        name: String!
+        spot: String!
+        weightedAmountInputs: [WeightedAmountInput!]!
+    ): [WeightedAmount!]!
+
+    createChartSolution(
+        datasetSchemaName: String!
+        playersSchemaName: String
+        opponentType: OpponentType
+        playerNames: [String!]
+    ): SolutionInfoOutput!
+
+    createChartSolutions(
+        datasetSchemaName: String!
+        playersSchemaName: String
+        opponentTypes: [OpponentType!]!
+        playerNames: [String!]
+    ): Int!
+
+    createCustomSolution(
+        solutionName: String!
+        spotAdvisorInputs: [SpotAdvisorInput!]!
+    ): SolutionInfoOutput!
+
+    updateSolution(
+        solutionName: String!
+        newSolutionName: String
+        spotAdvisorInputs: [SpotAdvisorInput!]!
+    ): SolutionInfoOutput!
+
+    solution(
+        solutionName: String!
+    ): SolutionInfoOutput!
+
+    copySolution(
+        solutionName: String!
+        newSolutionName: String!
+    ): SolutionInfoOutput!
+
+    preflopActionChart(
+        name: String!
+    ): [CardCellActionVector!]!
+
+    preflopAmountChart(
+        name: String!
+    ): [CardCellWeightedRandomAmountOutput!]!
+
+    postflopActionChart(
+        name: String!
+    ): ActionVector!
+
+    postflopAmountChart(
+        name: String!
+    ): [WeightedAmount!]!
+
+    solutionNames(mask: String): [String!]!
+
+    actionAdvisorNames(
+        spot: String!
+        mask: String
+    ): [ActionAdvisorInfo!]!
+
+    amountAdvisorNames(
+        spot: String!
+        mask: String
+    ): [AmountAdvisorInfo!]!
+
+    preflopActionChartBodyNames(
+        spot: String!
+        mask: String
+    ): [String!]!
+
+    preflopAmountChartBodyNames(
+        spot: String!
+        mask: String
+    ): [String!]!
+
+    postflopActionChartBodyNames(
+        spot: String!
+        mask: String
+    ): [String!]!
+
+    postflopAmountChartBodyNames(
+        spot: String!
+        mask: String
+    ): [String!]!
+
+    readAllSpecialSpotTweakNames: [String!]!
+
+    spotInfos(
+        street: Street
+    ): [SpotInfo!]!
+
+    play(
+        solutionAliasInputs:  [SolutionAliasInput!]!
+        selfPlayPropertiesInput: SelfPlayPropertiesInput!
+        pokerGamesDatasetInput: PokerGamesDatasetInput!
+        handHistoryDatasetInput: HandHistoryDatasetInput!
+    ): Int!
+}
+
+
+type Model {
+    name: String!
+    modelType: ModelType!
+    modelStatus: ModelStatus!
+    datasetQuery: String!
+    fallbackQuery: String!
+    featureSchema: FeatureSchema!
+    pokerSituation: PokerSituation!
+    spot: String!
+    datasetRowCount: Int!
+    datasetSchemaName: String!
+    datasetTableName: String!
+    modelSize: Int!
+    maxDepth: Int!
+    featureInfo: FeatureInfo!
+    depth: Int!
+    minInstancesPerNode: Int!
+    minInfoGain: Float!
+    minWeightFractionPerNode: Float!
+    numNodes: Int!
+    evalValueSeenData: Float!
+    evalValueUnknownData: Float!
+    metricName: MetricName!
+}
+
+enum ModelStatus {
+    TRAINED
+    TRAINING_IN_PROGRESS
+    INSUFFICIENT_DATA_TRAIN
+    FAILURE
+    NEW
+}
+
+enum ModelType {
+    REGRESSION
+    CLASSIFICATION
+}
+
+enum MetricName {
+    ACCURACY_ERROR
+    RMSE
+}
+
+type FeatureInfo {
+    featureImportances: [FeatureImportance!]!
+    top5FeatureImportances: [FeatureImportance!]!
+}
+
+type FeatureImportance {
+    featureName: String!
+    importance: Float!
+}
+
+type CardCellWeightedAmount {
+    cardCell: CardCell!
+    weightedAmounts: [WeightedAmount!]!
+}
+
+type AmountAdvisorInfo {
+    amountAdvisorType: AmountAdvisorType!
+    name: String!
+}
+
+type ActionAdvisorInfo {
+    actionAdvisorType: ActionAdvisorType!
+    name: String!
+}
+
+input HandHistoryDatasetInput {
+    schemaName: String!
+    tableName: String!
+    isEnabled: Boolean!
+    playerNames: [String!]!
+}
+
+input PokerGamesDatasetInput {
+    schemaName: String!
+    tableName: String!
+    isEnabled: Boolean!
+}
+
+input SelfPlayPropertiesInput {
+    boardSizes: [BoardSize!]!
+    bbAmount: Int!
+    maxInitialStack: Int!
+    minInitialStack: Int!
+    batchSize: Int!
+    batchCount: Int!
+}
+
+input SolutionAliasInput {
+    solutionNameAdvice: String!
+    alias: String!
+    opponentType : OpponentType!
+    specialSpotTweakCollectionName: String!
+    isMandatory: Boolean!
+}
+
+type SpecialSpotTweak {
+    name: String!
+    specialSpotTweakOutputs: [SpecialSpotTweakOutput!]!
+}
+
+type SpecialSpotTweakOutput {
+    specialSpot: SpecialSpot!
+    actionVector: ActionVector!
+}
+
+input SpecialSpotTweakInput {
+    specialSpot: SpecialSpot!
+    actionVectorInput: ActionVectorInput!
+}
+
+enum SpecialSpot {
+    BARREL_RIVER_AFT_DELAY_TURN_IP
+    BET_TURN_AS_CALLER_CHECKER_PF_IP
+    BET_VS_DOUBLECHECK_IP
+    CONTBET_FLOP_RAISER_IP_SRP
+    CONTBET_FLOP_RAISER_OOP
+    CONTBET_FLOP_RAISER_SBVSBB_OOP
+    CONTBET_TURN_RAISER_IP_SRP
+    DELAY_CBET_TURN_OOP
+    DELAY_CONTBET_TURN_IP
+    FLOAT_RIVER_IP
+    FLOAT_TURN_IP
+    FL_IP_CALLER_VS_RAISE
+    FL_OOP_CALLER_VS_RAISE
+    IP_CALLER_VS_BET_40PLUS_PERC_POT
+    IP_CALLER_VS_BET_40_PERC_POT
+    MWP_CONTBET_FLOP_OOP_IP
+    MWP_CONTBET_FLOP_OOP_OOP
+    MWP_DELAY_CONTBET_TURN_VS_ANY
+    MWP_PROBE_BET_TURN_BB_VS_IP_OOP
+    OOP_CALLER_VS_BET_40PLUS_PERC_POT
+    OOP_CALLER_VS_BET_40_PERC_POT
+    PROBE_RIVER_OOP
+    RAISE_FLOP_BBVSSB_IP
+    RAISE_PROBE_TURN_IP
+    RV_IP_CALLER_VS_RAISE
+    RV_OOP_CALLER_VS_RAISE
+    TN_IP_CALLER_VS_RAISE
+    TN_OOP_CALLER_VS_RAISE
+    TN_IP_CALLER_VS_BET
+    TN_OOP_CALLER_VS_BET
+    RV_IP_CALLER_VS_BET
+    RV_OOP_CALLER_VS_BET
+    XXB_OOP
+}
+
+input CardCellWeightedAmountInput {
+    cardCell: CardCell!
+    weightedAmountInputs: [WeightedAmountInput!]!
+}
+
+input WeightedAmountInput {
+    weight: Float!
+    amount: Float!
+}
+
+type CardCellWeightedRandomAmountOutput {
+    cardCell: CardCell!
+    weightedAmounts: [WeightedAmount!]!
+}
+
+type WeightedAmount {
+    weight: Float!
+    amount: Float!
+}
+
+type CardCellActionVector {
+    cardCell: CardCell!
+    actionVector: ActionVector!
+}
+
+input SpotAdvisorInput {
+    spot: String!
+    actionAdvisorInput: ActionAdvisorInput
+    actionTweakInput: ActionTweakInput
+    amountAdvisorInput: AmountAdvisorInput
+    amountTweakInput: AmountTweakInput
+}
+
+input AmountAdvisorInput {
+    name: String!
+    amountAdvisorType: AmountAdvisorType!
+}
+
+input ActionAdvisorInput {
+    name: String!
+    actionAdvisorType: ActionAdvisorType!
+}
+
+input CardCellActionVectorInput {
+    cardCell: CardCell!
+    actionVectorInput: ActionVectorInput!
+}
+
+enum EffStackType {
+    UNSPECIFIED
+    BB_40_PLUS
+    BB_20_40
+    BB_18_20
+    BB_16_18
+    BB_8_10
+    BB_14_16
+    BB_12_14
+    BB_10_12
+    BB_6_8
+    BB_4_6
+    BB_2_4
+    BB_0_2
+}
+
+enum PostflopSituation{
+    IP_CHECKER
+    IP_CALLER
+    OOP_CHECKER
+    OOP_CALLER
+    MWP_LAST_CALLER
+    MWP_BTW_CALLER
+    MWP_LAST_CHECKER
+    MWP_BTW_CHECKER
+    PFHU_SB
+    PFHU_BB
+    VS_RAISE
+}
+
+enum ComboType {
+    NUTS,
+    FULL_HOUSE_LOW,
+    FLUSH_WEAK,
+    STRAIGHT_WEAK,
+    SET,
+    TRIPS,
+    SPLIT_PAIRS_TOP,
+    SPLIT_PAIRS_LOW,
+    OVER_PAIR_AKQ,
+    OVER_PAIR,
+    TOP_PAIR_AK,
+    TOP_PAIR_AQAJKQ,
+    TOP_PAIR_AX,
+    TOP_PAIR_KQ,
+    TOP_PAIR_GK,
+    TOP_PAIR_WK,
+    UNDER_PAIR,
+    UNDER_PAIR_AK_BOARD,
+    SECOND_PAIR_GK,
+    SECOND_PAIR_WK,
+    TWO_PAIRS_TOP,
+    TWO_PAIRS_HIGH,
+    TWO_PAIRS_LOW,
+    THIRD_PAIR_GK,
+    THIRD_PAIR_WK,
+    WEAK_PAIR,
+    OC_2_AX_FD,
+    OC_2_FD,
+    OC_1_A_FD,
+    OC_1_FD,
+    AIR_FD,
+    AIR_WEAK_FD,
+    AIR_PAIR_FD,
+    OC_2_AX_SD,
+    OC_2_SD,
+    OC_1_A_SD,
+    OC_1_SD,
+    AIR_SD,
+    AIR_WEAK_SD,
+    AIR_PAIR_SD,
+    OC_2_AX,
+    OC_1_A,
+    OC_2,
+    OC_1,
+    AIR_PAIR_OC2,
+    AIR_PAIR_OC1,
+    BOARD_TOP_COMBO,
+    AIR_PAIR_TRASH,
+    TWO_PAIRS_TRASH,
+    AIR
+}
+
+type PostflopChart {
+    name: String!
+    cardCellTweaks: [CardCellTweak!]!
+}
+
+type PreflopChart {
+    name: String!
+    cardCellTweaks: [CardCellTweak!]!
+}
+
+type CardCellTweak {
+    cardCell: CardCell!
+    actionVector: ActionVector!
+}
+
+type SolutionInfoOutput {
+    advisorInfos: [AdvisorInfo!]!
+}
+
+type AdvisorInfo {
+    spotInfo: SpotInfo!
+    actionAdvisorName: String!
+    actionAdvisorType: ActionAdvisorType!
+    actionTweak: ActionTweak!
+    amountAdvisorName: String!
+    amountAdvisorType: AmountAdvisorType!
+    amountTweak: AmountTweak!
+}
+
+type SpotInfo {
+    name: String!
+    street: Street!
+    pokerSituation: PokerSituation!
+    actionFeatureSchema: FeatureSchema!
+    amountFeatureSchema: FeatureSchema!
+}
+
+type AmountTweak {
+    amountTweakStrategy: AmountTweakStrategy!
+    value: Float!
+}
+
+enum AmountTweakStrategy {
+    IDENTITY
+    REPLACE
+    MULTIPLY
+    ADD
+}
+
+type ActionTweak {
+    actionTweakStrategy: ActionTweakStrategy!
+    actionVector: ActionVector!
+}
+
+enum ActionTweakStrategy {
+    RAND_IDENTITY
+    RAND_MULTIPLY
+    MAX_IDENTITY
+    MAX_MULTIPLY
+    RAND_A_OR_F
+    RAND_R_OR_F
+    RAND_C_OR_F
+    MAX_MULT_A_OR_F
+    MAX_MULT_R_OR_F
+    MAX_MULT_C_OR_F
+    MAX_MULT_A_OR_C
+    MAX_A_OR_F
+    MAX_R_OR_F
+    MAX_C_OR_F
+    MAX_REPLACE
+    RAND_REPLACE
+    ALLIN
+}
+
+enum ActionAdvisorType {
+    ML_ACTION,
+    CHART_PREFLOP_ACTION,
+    CHART_POSTFLOP_ACTION,
+    COUNTER_STRATEGY_ACTION
+}
+
+enum AmountAdvisorType {
+    ML_AMOUNT
+    CHART_PREFLOP_AMOUNT
+    CHART_POSTFLOP_AMOUNT
+    COUNTER_STRATEGY_AMOUNT
+}
+
+enum Street {
+    PF
+    FL
+    TN
+    RV
+}
+
+
+input DecisionTreeParamsInput {
+    maxDepth: Int!
+    minInfoGain: Float!
+    minWeightFractionPerNode: Float!
+    minInstancesPerNode: Int!
+}
+
+enum BoardSize {
+    HEADS_UP
+    SIZE_3
+    SIZE_4
+    SIZE_5
+    SIZE_6
+    SIZE_7
+    SIZE_8
+    SIZE_9
+    SIZE_10
+}
+
+enum OpponentType {
+    OVERALL
+    OVERALL_CASH
+    UNKNOWN_CASH
+    OVERALL_CASH_BS6
+    CASH_LIMPER_BS_6_VPIP_0_30
+    CASH_LIMPER_BS_6_VPIP_30PLUS
+    CASH_REG_BS_6_VPIP_40PLUS
+    CASH_REG_BS_6_VPIP_30_40
+    CASH_REG_BS_6_VPIP_25_30
+    CASH_REG_BS_6_VPIP_20_25
+    CASH_REG_BS_6_VPIP_0_20
+    CASH_REG_BS_6_VPIP_0_20_WWSF_45PLUS
+    CASH_REG_BS_6_VPIP_20_30_WWSF_45PLUS
+    CASH_REG_BS_6_VPIP_30PLUS_WWSF_45PLUS
+    CASH_REG_BS_6_WWSF_45PLUS
+    CASH_REG_BS_6_WWSF_47PLUS
+    CASH_REG_BS_6_WWSF_50PLUS
+}
+
+type Tweak {
+    actionTweakStrategy: ActionTweakStrategy!
+}
+
+input ActionTweakInput {
+    actionTweakStrategy: ActionTweakStrategy!
+    actionVectorInput: ActionVectorInput!
+}
+
+input AmountTweakInput {
+    amountTweakStrategy: AmountTweakStrategy!
+    value: Float!
+}
+
+type ActionVector {
+    f: Float!
+    c: Float!
+    a: Float!
+    r: Float!
+}
+
+input ActionVectorInput {
+    f: Float!
+    c: Float!
+    a: Float!
+    r: Float!
+}
+
+input PokerHandInput {
+    handId: String
+    handDate: String
+    bbAmount: Float!
+    sbAmount: Float!
+    playerInitialStateInputs: [PlayerInitialStateInput!]!
+    pfMoveInputs: [MoveInput!]!
+    flMoveInputs: [MoveInput!]
+    tnMoveInputs: [MoveInput!]
+    rvMoveInputs: [MoveInput!]
+    flCards: String
+    tnCard: String
+    rvCard: String
+}
+
+type Advice {
+    action : Action!
+    amount : Int!
+    message: String!
+}
+
+input MoveInput {
+    preflopPosition: PreflopPosition!
+    actionInput: ActionInput!
+}
+
+input PlayerInitialStateInput {
+    preflopPosition: PreflopPosition!
+    playerName: String
+    pocketCards: String
+    initialStack: Float!
+    vpip: Float!
+}
+
+enum PreflopPosition {
+    SB
+    BB
+    UTG1
+    UTG2
+    UTG3
+    MP1
+    MP2
+    MP3
+    CO
+    BTN
+}
+
+enum CardCell {
+    CELL_AA
+    CELL_KK
+    CELL_QQ
+    CELL_JJ
+    CELL_TT
+    CELL_99
+    CELL_88
+    CELL_77
+    CELL_66
+    CELL_55
+    CELL_44
+    CELL_33
+    CELL_22
+    CELL_AKs
+    CELL_AQs
+    CELL_AJs
+    CELL_ATs
+    CELL_A9s
+    CELL_A8s
+    CELL_A7s
+    CELL_A6s
+    CELL_A5s
+    CELL_A4s
+    CELL_A3s
+    CELL_A2s
+    CELL_KQs
+    CELL_KJs
+    CELL_KTs
+    CELL_K9s
+    CELL_K8s
+    CELL_K7s
+    CELL_K6s
+    CELL_K5s
+    CELL_K4s
+    CELL_K3s
+    CELL_K2s
+    CELL_QJs
+    CELL_QTs
+    CELL_Q9s
+    CELL_Q8s
+    CELL_Q7s
+    CELL_Q6s
+    CELL_Q5s
+    CELL_Q4s
+    CELL_Q3s
+    CELL_Q2s
+    CELL_JTs
+    CELL_J9s
+    CELL_J8s
+    CELL_J7s
+    CELL_J6s
+    CELL_J5s
+    CELL_J4s
+    CELL_J3s
+    CELL_J2s
+    CELL_T9s
+    CELL_T8s
+    CELL_T7s
+    CELL_T6s
+    CELL_T5s
+    CELL_T4s
+    CELL_T3s
+    CELL_T2s
+    CELL_98s
+    CELL_97s
+    CELL_96s
+    CELL_95s
+    CELL_94s
+    CELL_93s
+    CELL_92s
+    CELL_87s
+    CELL_86s
+    CELL_85s
+    CELL_84s
+    CELL_83s
+    CELL_82s
+    CELL_76s
+    CELL_75s
+    CELL_74s
+    CELL_73s
+    CELL_72s
+    CELL_65s
+    CELL_64s
+    CELL_63s
+    CELL_62s
+    CELL_54s
+    CELL_53s
+    CELL_52s
+    CELL_43s
+    CELL_42s
+    CELL_32s
+    CELL_AKo
+    CELL_AQo
+    CELL_AJo
+    CELL_ATo
+    CELL_A9o
+    CELL_A8o
+    CELL_A7o
+    CELL_A6o
+    CELL_A5o
+    CELL_A4o
+    CELL_A3o
+    CELL_A2o
+    CELL_KQo
+    CELL_KJo
+    CELL_KTo
+    CELL_K9o
+    CELL_K8o
+    CELL_K7o
+    CELL_K6o
+    CELL_K5o
+    CELL_K4o
+    CELL_K3o
+    CELL_K2o
+    CELL_QJo
+    CELL_QTo
+    CELL_Q9o
+    CELL_Q8o
+    CELL_Q7o
+    CELL_Q6o
+    CELL_Q5o
+    CELL_Q4o
+    CELL_Q3o
+    CELL_Q2o
+    CELL_JTo
+    CELL_J9o
+    CELL_J8o
+    CELL_J7o
+    CELL_J6o
+    CELL_J5o
+    CELL_J4o
+    CELL_J3o
+    CELL_J2o
+    CELL_T9o
+    CELL_T8o
+    CELL_T7o
+    CELL_T6o
+    CELL_T5o
+    CELL_T4o
+    CELL_T3o
+    CELL_T2o
+    CELL_98o
+    CELL_97o
+    CELL_96o
+    CELL_95o
+    CELL_94o
+    CELL_93o
+    CELL_92o
+    CELL_87o
+    CELL_86o
+    CELL_85o
+    CELL_84o
+    CELL_83o
+    CELL_82o
+    CELL_76o
+    CELL_75o
+    CELL_74o
+    CELL_73o
+    CELL_72o
+    CELL_65o
+    CELL_64o
+    CELL_63o
+    CELL_62o
+    CELL_54o
+    CELL_53o
+    CELL_52o
+    CELL_43o
+    CELL_42o
+    CELL_32o
+}
+
+input ActionInput {
+    action: Action!
+    amount: Float!
+}
+
+type Decision {
+    action: Action!
+    amount: Float!
+}
+
+enum Action {
+    F
+    C
+    A
+    R
+}
+
+enum FeatureSchema {
+    ACTION
+    BRANCH
+    AMOUNT_BB
+    DIFF_AMOUNT_BB
+    AMOUNT_BY_POT
+    DIFF_AMOUNT_BY_POT
+}
+
+enum PokerSituation {
+    FL_HU_IP_CALLER_BBVSSB
+    FL_HU_IP_CALLER_BBVSSB_VS_RAISE
+    FL_HU_IP_CALLER_MRP_FPVSFP
+    FL_HU_IP_CALLER_MRP_FPVSSBBB
+    FL_HU_IP_CALLER_MRP_VS_RAISE
+    FL_HU_IP_CALLER_SRP_FPCVSFP
+    FL_HU_IP_CALLER_SRP_FPRVSSBBB
+    FL_HU_IP_CALLER_SRP_VS_RAISE
+    FL_HU_IP_CHECKER_BBVSSB
+    FL_HU_IP_CHECKER_MRP_FPVSFP
+    FL_HU_IP_CHECKER_MRP_FPVSSBBB
+    FL_HU_IP_CHECKER_SRP_FPCVSFP
+    FL_HU_IP_CHECKER_SRP_FPRVSSBBB
+    FL_HU_IP_PFHU_SB_CALLER
+    FL_HU_IP_PFHU_SB_CHECKER
+    FL_HU_OOP_CALLER_MRP_FPVSFP
+    FL_HU_OOP_CALLER_MRP_SBBB
+    FL_HU_OOP_CALLER_MRP_VS_RAISE
+    FL_HU_OOP_CALLER_SBVSBB
+    FL_HU_OOP_CALLER_SBVSBB_VS_RAISE
+    FL_HU_OOP_CALLER_SRP_FPRVSFP
+    FL_HU_OOP_CALLER_SRP_SBBBCVSFP
+    FL_HU_OOP_CALLER_SRP_VS_RAISE
+    FL_HU_OOP_CHECKER_MRP_R1_FPVSFP
+    FL_HU_OOP_CHECKER_MRP_SBBBVSFP
+    FL_HU_OOP_CHECKER_MRP_SBVSBB
+    FL_HU_OOP_CHECKER_SRP_FPRVSFP
+    FL_HU_OOP_CHECKER_SRP_SBBBCVSFP
+    FL_HU_OOP_CHECKER_SRP_SBCVSBB
+    FL_HU_OOP_CHECKER_SRP_SBRVSBB
+    FL_HU_OOP_PFHU_BB_CALLER
+    FL_HU_OOP_PFHU_BB_CHECKER
+    FL_MWP_BTW_CALLER
+    FL_MWP_BTW_CHECKER
+    FL_MWP_LAST_CALLER
+    FL_MWP_LAST_CHECKER
+    PF_AI_PUSH_SAFE
+    PF_AI_PUSH_UNSAFE
+    PF_ANY_VS_4BET_PLUS
+    PF_ANY_VS_COLD_3BET_CALL
+    PF_ANY_VS_COLD_4BET_PLUS
+    PF_ANY_VS_COLD_SQUEEZE_CALL
+    PF_ANY_VS_COMPLEX_ISOLATE_POT
+    PF_ANY_VS_COMPLEX_SQUEEZE_POT
+    PF_ANY_VS_ISOLATED_LIMP_RAISER
+    PF_BB_VS_BTN_COLD_3BET
+    PF_BB_VS_BTN_OPEN_RAISER
+    PF_BB_VS_BTN_OPEN_RAISER_COLD_CALL
+    PF_BB_VS_BTN_SQUEEZE
+    PF_BB_VS_COMPLETE
+    PF_BB_VS_CO_COLD_3BET
+    PF_BB_VS_CO_OPEN_RAISER
+    PF_BB_VS_CO_OPEN_RAISER_COLD_CALL
+    PF_BB_VS_CO_SQUEEZE
+    PF_BB_VS_FP_COLD_3BET
+    PF_BB_VS_FP_ISOLATE
+    PF_BB_VS_FP_ISOLATE_3BET
+    PF_BB_VS_FP_LIMP
+    PF_BB_VS_FP_OPEN_RAISER_COLD_CALL
+    PF_BB_VS_FP_SQUEEZE
+    PF_BB_VS_MP_OPEN_RAISER
+    PF_BB_VS_SB_COLD_3BET
+    PF_BB_VS_SB_ISOLATE
+    PF_BB_VS_SB_ISOLATE_3BET
+    PF_BB_VS_SB_OPEN_RAISER
+    PF_BB_VS_SB_SQUEEZE
+    PF_BB_VS_UTG_OPEN_RAISER
+    PF_BTN_OPEN_RAISER_VS_SBBB_3BET
+    PF_BTN_OPEN_RAISER_VS_SBBB_SQUEEZE
+    PF_BTN_VS_CO_COLD_3BET
+    PF_BTN_VS_CO_OPEN_RAISER
+    PF_BTN_VS_CO_SQUEEZE
+    PF_BTN_VS_FP_COLD_3BET
+    PF_BTN_VS_FP_OPEN_RAISER_COLD_CALL
+    PF_BTN_VS_FP_SQUEEZE
+    PF_BTN_VS_MP_OPEN_RAISER
+    PF_BTN_VS_UTG_OPEN_RAISER
+    PF_COLD_CALLER_VS_FP_SQUEEZE
+    PF_COLD_CALLER_VS_SBBB_SQUEEZE
+    PF_CO_OPEN_RAISER_VS_FP_3BET
+    PF_CO_OPEN_RAISER_VS_SBBB_3BET
+    PF_CO_OPEN_RAISER_VS_SBBB_SQUEEZE
+    PF_CO_VS_FP_COLD_3BET
+    PF_CO_VS_FP_OPEN_RAISER_COLD_CALL
+    PF_CO_VS_FP_SQUEEZE
+    PF_CO_VS_MP_OPEN_RAISER
+    PF_CO_VS_UTG_OPEN_RAISER
+    PF_FIRST_BTN
+    PF_FIRST_CO
+    PF_FIRST_SB
+    PF_FIRST_VS_4_CALLERS
+    PF_FIRST_VS_5_CALLERS
+    PF_FIRST_VS_6_CALLERS
+    PF_FIRST_VS_7_CALLERS
+    PF_FIRST_VS_8_CALLERS
+    PF_FIRST_VS_9_CALLERS
+    PF_FP_LIMPER_VS_FP_ISOLATE
+    PF_FP_LIMPER_VS_SBBB_ISOLATE
+    PF_FP_VS_FP_COLD_3BET
+    PF_FP_VS_FP_ISOLATE
+    PF_FP_VS_FP_ISOLATE_3BET
+    PF_FP_VS_FP_LIMP
+    PF_FP_VS_FP_OPEN_RAISER
+    PF_FP_VS_FP_OPEN_RAISER_COLD_CALL
+    PF_FP_VS_FP_SQUEEZE
+    PF_HU_BB_VS_SB_4BET
+    PF_HU_BB_VS_SB_LIMP
+    PF_HU_BB_VS_SB_LIMP_RAISE
+    PF_HU_BB_VS_SB_OPEN_RAISE
+    PF_HU_SB_FIRST
+    PF_HU_SB_LIMPER_VS_BB_BET
+    PF_HU_SB_VS_BB_3BET
+    PF_HU_VS_AI_SHOVE_SAFE
+    PF_HU_VS_AI_SHOVE_UNSAFE
+    PF_MP_OPEN_RAISER_VS_FP_3BET
+    PF_MP_OPEN_RAISER_VS_FP_SQUEEZE
+    PF_MP_OPEN_RAISER_VS_SBBB_3BET
+    PF_MP_OPEN_RAISER_VS_SBBB_SQUEEZE
+    PF_SB_OPEN_RAISER_VS_BB_3BET
+    PF_SB_VS_BTN_COLD_3BET
+    PF_SB_VS_BTN_OPEN_RAISER
+    PF_SB_VS_BTN_SQUEEZE
+    PF_SB_VS_CO_COLD_3BET
+    PF_SB_VS_CO_OPEN_RAISER
+    PF_SB_VS_CO_OPEN_RAISER_COLD_CALL
+    PF_SB_VS_CO_SQUEEZE
+    PF_SB_VS_FP_COLD_3BET
+    PF_SB_VS_FP_ISOLATE
+    PF_SB_VS_FP_ISOLATE_3BET
+    PF_SB_VS_FP_LIMP
+    PF_SB_VS_FP_OPEN_RAISER_COLD_CALL
+    PF_SB_VS_FP_SQUEEZE
+    PF_SB_VS_MP_OPEN_RAISER
+    PF_SB_VS_UTG_OPEN_RAISER
+    PF_SQUEEZE_POT
+    PF_UTG_OPEN_RAISER_VS_FP_3BET
+    PF_UTG_OPEN_RAISER_VS_FP_SQUEEZE
+    PF_UTG_OPEN_RAISER_VS_SBBB_3BET
+    PF_UTG_OPEN_RAISER_VS_SBBB_SQUEEZE
+    PF_VS_AI_SHOVE_SAFE
+    PF_VS_AI_SHOVE_UNSAFE
+    RV_HU_IP_CALLER
+    RV_HU_IP_CALLER_VS_RAISE
+    RV_HU_IP_CHECKER
+    RV_HU_OOP_CALLER
+    RV_HU_OOP_CALLER_VS_RAISE
+    RV_HU_OOP_CHECKER_TNC
+    RV_HU_OOP_CHECKER_TNR
+    RV_HU_OOP_CHECKER_TNX
+    RV_MWP_BTW_CALLER
+    RV_MWP_BTW_CHECKER
+    RV_MWP_LAST_CALLER
+    RV_MWP_LAST_CHECKER
+    TN_HU_IP_CALLER
+    TN_HU_IP_CALLER_VS_RAISE
+    TN_HU_IP_CHECKER
+    TN_HU_OOP_CALLER
+    TN_HU_OOP_CALLER_VS_RAISE
+    TN_HU_OOP_CHECKER_FLC
+    TN_HU_OOP_CHECKER_FLR
+    TN_HU_OOP_CHECKER_FLX
+    TN_MWP_BTW_CALLER
+    TN_MWP_BTW_CHECKER
+    TN_MWP_LAST_CALLER
+    TN_MWP_LAST_CHECKER
+}
+
